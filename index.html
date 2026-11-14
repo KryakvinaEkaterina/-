@@ -2,6 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Приглашение 🐱</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -14,61 +15,101 @@
             justify-content: center;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: #e687a8;
+            padding: 24px;
         }
+        .screen { display: none; width: 100%; max-width: 360px; text-align: center; }
+        .screen.active { display: block; }
+
         .card {
             background: #fff;
-            padding: 40px 32px;
             border-radius: 24px;
-            width: 360px;
-            box-shadow: 0 10px 30px rgba(230, 135, 168, 0.25);
-            text-align: center;
-            animation: fadeIn 1s ease;
+            width: 100%;
+            box-shadow: 0 8px 24px rgba(230, 135, 168, 0.25);
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        h1 {
-            font-size: 2.2rem;
-            margin-bottom: 12px;
-            color: #d64a7a;
-        }
-        .cat { font-size: 3rem; margin-bottom: 18px; }
-        p {
-            line-height: 1.8;
-            color: #8a4a6a;
-            max-width: 300px;
-            margin-bottom: 24px;
-        }
+        .card-big { padding: 70px 20px; }
+
+        h1 { font-size: 1.8rem; margin-bottom: 12px; color: #d64a7a; }
+        h1.big { font-size: 3.4rem; color: #d64a7a; }
+
+        .cat { font-size: 2.5rem; margin-bottom: 18px; }
+        .cat.big { font-size: 5rem; margin-bottom: 12px; animation: bounce 1s infinite; }
+
+        @keyframes bounce { 0%,100%{transform:scale(1)} 50%{transform:scale(1.15)} }
+        @keyframes fadeIn { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+        p { line-height: 1.7; color: #8a4a6a; font-size: 0.95rem; margin-bottom: 24px; }
+        p.big { font-size: 1.15rem; line-height: 2; margin-bottom: 20px; }
+
         .btn {
-            display: inline-block;
-            padding: 14px 28px;
-            border-radius: 20px;
-            background: linear-gradient(135deg, #f8c8d1, #e687a8);
-            color: #fff;
-            font-size: 1.1rem;
-            text-decoration: none;
-            box-shadow: 0 4px 12px rgba(230, 135, 168, 0.4);
-            transition: transform 0.2s;
+            display: inline-flex; align-items: center; justify-content: center;
+            min-height: 48px; padding: 16px 32px; border-radius: 24px;
+            background: linear-gradient(135deg, #f8c8d1, #e687a8); color: #fff;
+            font-size: 1rem; text-decoration: none; box-shadow: 0 4px 12px rgba(230,135,168,0.4);
+            transition: transform 0.2s; touch-action: manipulation; cursor: pointer;
         }
-        .btn:hover { transform: translateY(-3px); }
-        .small { font-size: 0.85rem; color: #b5758f; margin-top: 12px; }
+        .btn:hover { transform: translateY(-2px); }
+
+        .rel { position: relative; width: 100%; }
+        .runaway {
+            position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%);
+            min-height: 48px; padding: 14px 24px; border-radius: 24px;
+            background: #fff3f5; color: #d64a7a; border: 2px solid #e687a8;
+            cursor: pointer; user-select: none; white-space: nowrap; touch-action: manipulation;
+        }
+        .msg-no { color: #8a4a6a; font-size: 0.95rem; margin-top: 18px; min-height: 34px; display:none; }
+        .hearts { text-align: center; margin: 24px 0; }
+        .hearts span { margin: 0 6px; font-size: 2.2rem; }
     </style>
 </head>
 <body>
 
+<!-- ЭКРАН 1 -->
+<div class="screen active" id="screen1">
     <div class="card">
-        <h1>Привет, пушистик Январь🐱</h1>
+        <h1>Привет, пушистик 🐱</h1>
         <div class="cat">🐱💕🍫</div>
-        <p>
-            Это не просто сообщение. Это официальное приглашение .
-            Я очень хочу позвать тебя на свидание
-            Будем пить горячий шоколад с зефирками, а рядом будет мурчать котик (ну, почти).
-            
-        </p>
-        <a href="#" class="btn">Да, я хочу ❤️</a>
-        <p class="small">Отказатьсмя не получится увы вот так вот, скажешь нет и придется завалить твое мурчало навсегда 😊</p>
+        <p>Это официальное приглашение (с розовым фоном ✨). Я хочу позвать тебя на свидание: [место], [дата], [время]. Горячий шоколад, зефирки, мурчащие котики.</p>
+        <a href="#" class="btn" onclick="show('screen2')">Да, я хочу ❤️</a>
+
+        <div class="rel">
+            <a href="#" class="runaway" id="runaway" onmousemove="move()" ontouchmove="move()" onclick="goAway()">Нет</a>
+        </div>
+        <p class="msg-no" id="msgNo">Ну ладно. Без давления. Я тебя поняла ❤️</p>
     </div>
+</div>
+
+<!-- ЭКРАН 2 -->
+<div class="screen" id="screen2">
+    <div class="card card-big">
+        <h1 class="big">🥲✨ Это было очень красиво</h1>
+        <div class="cat big">💕💖🥰</div>
+        <p class="big">Я долго думала, как это сказать. И вот:</p>
+        <p class="big">Я очень-очень тебя люблю. И поэтому я делаю тебе предложение: <strong>выходи за меня.</strong> Да, буквально. Мы будем жить вместе, смотреть мультфильмы с котиками и выбирать имя для нашего кота.</p>
+        <div class="hearts"><span>❤️</span><span>💕</span><span>🥰</span><span>💖</span><span>💕</span></div>
+        <p class="big">Ответ можно дать потом. Главное — что ты здесь 😊</p>
+    </div>
+</div>
+
+<script>
+function move() {
+    const el = document.getElementById('runaway');
+    const w = 200;
+    const vw = Math.max(window.innerWidth, document.documentElement.clientWidth);
+    const x = Math.floor(Math.random() * (vw - w)) + 10;
+    const y = Math.floor(Math.random() * (window.innerHeight - 120));
+    el.style.left = x + 'px';
+    el.style.top = y + 'px';
+}
+function goAway() {
+    move();
+    document.getElementById('runaway').style.display = 'none';
+    document.getElementById('msgNo').style.display = 'block';
+}
+function show(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
+</script>
 
 </body>
 </html>
