@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Приглашение 🐱</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: linear-gradient(135deg, #ffe4f5 0%, #f8c8d1 100%);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #e687a8;
+        }
+        .card {
+            background: #fff;
+            padding: 40px 32px;
+            border-radius: 24px;
+            width: 360px;
+            box-shadow: 0 10px 30px rgba(230, 135, 168, 0.25);
+            text-align: center;
+            animation: fadeIn 1s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 12px;
+            color: #d64a7a;
+        }
+        .cat { font-size: 3rem; margin-bottom: 18px; }
+        p {
+            line-height: 1.8;
+            color: #8a4a6a;
+            max-width: 300px;
+            margin-bottom: 24px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 14px 28px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #f8c8d1, #e687a8);
+            color: #fff;
+            font-size: 1.1rem;
+            text-decoration: none;
+            box-shadow: 0 4px 12px rgba(230, 135, 168, 0.4);
+            transition: transform 0.2s;
+        }
+        .btn:hover { transform: translateY(-3px); }
+        .small { font-size: 0.85rem; color: #b5758f; margin-top: 12px; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h1>Привет, пушистик Январь🐱</h1>
+        <div class="cat">🐱💕🍫</div>
+        <p>
+            Это не просто сообщение. Это официальное приглашение .
+            Я очень хочу позвать тебя на свидание
+            Будем пить горячий шоколад с зефирками, а рядом будет мурчать котик (ну, почти).
+            
+        </p>
+        <a href="#" class="btn">Да, я хочу ❤️</a>
+        <p class="small">Отказатьсмя не получится увы вот так вот, скажешь нет и придется завалить твое мурчало навсегда 😊</p>
+    </div>
+
+</body>
+</html>
