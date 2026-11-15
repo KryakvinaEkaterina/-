@@ -2,114 +2,227 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Приглашение 🐱</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Три экрана</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        /* Фон страницы: мягкий розовый градиент */
         body {
-            background: linear-gradient(135deg, #ffe4f5 0%, #f8c8d1 100%);
-            height: 100vh;
+            height: 100%;                    /* Высота = высота окна браузера */
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #e687a8;
-            padding: 24px;
+            flex-direction: column;           /* Элементы располагаются вертикально */
+            align-items: center;              /* По горизонтали — по центру */
+            justify-content: center;          /* По вертикали — по центру */
+            padding: 24px;                    /* Небольшой отступ по краям (на телефоне это защитит от краёв) */
+            font-family: system-ui, -apple-system, sans-serif;
+            background: linear-gradient(1350deg, #000000, #eb84c7);
+            
+            color: #2d0d21;                   /* Тёмный цвет для текста */
         }
-        .screen { display: none; width: 100%; max-width: 360px; text-align: center; }
+
+        /* Экраны: по умолчанию скрыты */
+        .screen { display: none; text-align: center; }
+        /* Активный экран: показывается */
         .screen.active { display: block; }
 
+        /* Карточка: белый фон, скругление, тень. Это «лист», который видит пользователь */
         .card {
-            background: #fff;
-            border-radius: 24px;
+            background: #f7b8da;
+            border-radius: 28px;
+            width: 100%;                      /* На весь контейнер */
+            max-width: 360px;                 /* Но не шире 360 px (для телефонов) */
+            padding: 40px 28px;
+            box-shadow: 0 12px 32px rgba(122, 58, 90, 0.15);
+        }
+
+        /* Ряд кнопок: ФЛЕКС. column = вертикально, gap = фиксированный зазор. Это гарантирует, что кнопки не наложатся */
+        .row {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;                        /* 24 пикселя между кнопками — достаточно для пальца на телефоне */
             width: 100%;
-            box-shadow: 0 8px 24px rgba(230, 135, 168, 0.25);
         }
-        .card-big { padding: 70px 20px; }
 
-        h1 { font-size: 1.8rem; margin-bottom: 12px; color: #d64a7a; }
-        h1.big { font-size: 3.4rem; color: #d64a7a; }
-
-        .cat { font-size: 2.5rem; margin-bottom: 18px; }
-        .cat.big { font-size: 5rem; margin-bottom: 12px; animation: bounce 1s infinite; }
-
-        @keyframes bounce { 0%,100%{transform:scale(1)} 50%{transform:scale(1.15)} }
-        @keyframes fadeIn { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
-
-        p { line-height: 1.7; color: #8a4a6a; font-size: 0.95rem; margin-bottom: 24px; }
-        p.big { font-size: 1.15rem; line-height: 2; margin-bottom: 20px; }
-
+        /* Кнопка: нормальная, достаточно большая для пальца */
         .btn {
-            display: inline-flex; align-items: center; justify-content: center;
-            min-height: 48px; padding: 16px 32px; border-radius: 24px;
-            background: linear-gradient(135deg, #f8c8d1, #e687a8); color: #fff;
-            font-size: 1rem; text-decoration: none; box-shadow: 0 4px 12px rgba(230,135,168,0.4);
-            transition: transform 0.2s; touch-action: manipulation; cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 52px;                 /* Минимальная высота 52 px */
+            padding: 0 32px;                  /* Отступы по горизонтали */
+            border-radius: 24px;
+            background: linear-gradient(135deg, #ffb1dd, #e687a8);
+            color: #3a0528;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;                     /* Без рамки — чистый цвет */
+            cursor: pointer;
+            touch-action: manipulation;         /* Оптимизация для касаний на телефоне */
+            width: 100%;                      /* Каждая кнопка на всю ширину контейнера */
         }
-        .btn:hover { transform: translateY(-2px); }
+.btn::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-color: rgba(230, 135, 168, 0.5);
+    opacity: 0;
+    transition: width 0.2s, height 0.2s, opacity 0.2s;
+}
+.btn:active {
+    transform: scale(0.97);
+}
+.btn:active::after {
+    width: 36px;
+    height: 36px;
+    border-width: 18px;
+    opacity: 1;
+    animation: splash 0.35s ease-out forwards;
+}
+@keyframes splash {
+    0% { width: 0; height: 0; border-width: 0; opacity: 1; }
+    40% { width: 36px; height: 36px; border-width: 18px; }
+    100% { width: 56px; height: 56px; border-width: 28px; opacity: 0; }
+}
+        /* Кнопка «Нет»: другой цвет, чтобы отличалась от основной */
+        .btn-no {
+            background: #fff3f5;
+            color: #e687a8;
+            border: 2px solid #e687a8;
+        }
 
-        .rel { position: relative; width: 100%; }
-        .runaway {
-            position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%);
-            min-height: 48px; padding: 14px 24px; border-radius: 24px;
-            background: #fff3f5; color: #d64a7a; border: 2px solid #e687a8;
-            cursor: pointer; user-select: none; white-space: nowrap; touch-action: manipulation;
+        /* Сообщение «без давления»: по умолчанию скрыто */
+        .status {
+            display: none;
+            margin-top: 12px;
+            font-size: 0.95rem;
         }
-        .msg-no { color: #8a4a6a; font-size: 0.95rem; margin-top: 18px; min-height: 34px; display:none; }
-        .hearts { text-align: center; margin: 24px 0; }
-        .hearts span { margin: 0 6px; font-size: 2.2rem; }
-    </style>
+
+        @keyframes fall {
+    0% { transform: translate(0,0); opacity: 1; }
+    100% { transform: translate(30px, 320px); opacity: 0; }
+}
+.warm {
+    text-shadow: 0 0 8px currentColor, 0 0 20px currentColor;
+    animation: warm 6s infinite;
+}
+@keyframes warm {
+    0%, 100% { text-shadow: 0 0 8px currentColor; letter-spacing: 0; }
+    33% { text-shadow: 0 0 25px currentColor, 0 0 40px currentColor; letter-spacing: 1.5px; }
+    66% { text-shadow: 0 0 18px currentColor; letter-spacing: 0.6px; }
+}
+</style>
 </head>
 <body>
 
-<!-- ЭКРАН 1 -->
-<div class="screen active" id="screen1">
-    <div class="card">
-        <h1>Привет, пушистик 🐱</h1>
-        <div class="cat">🐱💕🍫</div>
-        <p>Это официальное приглашение (с розовым фоном ✨). Я хочу позвать тебя на свидание: [место], [дата], [время]. Горячий шоколад, зефирки, мурчащие котики.</p>
-        <a href="#" class="btn" onclick="show('screen2')">Да, я хочу ❤️</a>
-
-        <div class="rel">
-            <a href="#" class="runaway" id="runaway" onmousemove="move()" ontouchmove="move()" onclick="goAway()">Нет</a>
+    <div class="screen active" id="e1">
+        <div class="card">
+            <h1>Любимый. Это твоя Клятва</h1> <br>
+            <p>Милый, сейчас тебе нужно будет дать мне клятву, которую не сможешь отменить. Нажми кнопку если готов.</p><br>
+            <div class="row">
+                <button type="button" class="btn" onclick="go('e2')">я готов, принцесса</button>
+            </div>
         </div>
-        <p class="msg-no" id="msgNo">Ну ладно. Без давления. Я тебя поняла ❤️</p>
     </div>
-</div>
 
-<!-- ЭКРАН 2 -->
-<div class="screen" id="screen2">
-    <div class="card card-big">
-        <h1 class="big">🥲✨ Это было очень красиво</h1>
-        <div class="cat big">💕💖🥰</div>
-        <p class="big">Я долго думала, как это сказать. И вот:</p>
-        <p class="big">Я очень-очень тебя люблю. И поэтому я делаю тебе предложение: <strong>выходи за меня.</strong> Да, буквально. Мы будем жить вместе, смотреть мультфильмы с котиками и выбирать имя для нашего кота.</p>
-        <div class="hearts"><span>❤️</span><span>💕</span><span>🥰</span><span>💖</span><span>💕</span></div>
-        <p class="big">Ответ можно дать потом. Главное — что ты здесь 😊</p>
+
+    <div class="screen" id="e2">
+        <div class="card">
+            <h1>Суть клятвы</h1>
+            <p>Клянешься ли <strong>ты</strong>, что всю жизнь будешь трахать меня на мак<strong>С</strong>имуме своих сил? Клян<strong>Е</strong>шься ли ты , что при любой возможности будешь лизать мне? <strong>К</strong>лянешься ли ты что всегда, когда мы вме<strong>С</strong>те , будешь будить меня поцелуями и каждый день обспыпать комплиментами? Клянешься ли ты любить меня всю жизнь?</p><br>
+           
+
+            <div class="row">
+                <button type="button" class="btn" onclick="go('e3')">Клянусь, моя богиня!</button>
+                <button type="button" class="btn btn-no" id="btn-no" onclick="playNo()">Нет...</button>
+            </div>
+
+            <p id="msg" class="status">не пробуй нажимать нет. ❤️</p>
+        </div>
     </div>
-</div>
 
-<script>
-function move() {
-    const el = document.getElementById('runaway');
-    const w = 200;
-    const vw = Math.max(window.innerWidth, document.documentElement.clientWidth);
-    const x = Math.floor(Math.random() * (vw - w)) + 10;
-    const y = Math.floor(Math.random() * (window.innerHeight - 120));
-    el.style.left = x + 'px';
-    el.style.top = y + 'px';
+    <div class="screen" id="e3">
+        <div class="card">
+            <h1 class="warm">ДА ТЫЖ МОЯ ЗАЙКА ✨</h1><br>
+            <p>Теперь ты мой навсегда и дольше. Признай что ты мой маленький послушный щеночек самый любименький</p><br>
+            <div class="row">
+                <button type="button" class="btn" onclick="go('e1')">Поклясться еще раз!</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let busy = false;
+
+function go(id) {
+    if (busy) return;
+    busy = true;
+
+    // Убираем старые сердечки
+    document.querySelectorAll('.confetti').forEach(function(c) { c.remove(); });
+
+    document.querySelectorAll('.screen').forEach(function(s) { s.classList.remove('active'); });
+    const target = document.getElementById(id);
+    target.classList.add('active');
+
+    if (id === 'e3') createConfetti(target);
+
+    setTimeout(function() { busy = false; }, 600);
 }
-function goAway() {
-    move();
-    document.getElementById('runaway').style.display = 'none';
-    document.getElementById('msgNo').style.display = 'block';
+
+function createConfetti(container) {
+    for (let i = 0; i < 14; i++) {
+        const el = document.createElement('span');
+        el.className = 'confetti';
+        el.innerHTML = '♥';
+        el.style.position = 'absolute';
+        el.style.left = Math.floor(Math.random() * 95) + '%';
+        el.style.top = '0';
+        el.style.width = '16px';
+        el.style.height = '16px';
+        el.style.color = '#e687a8';
+        el.style.fontSize = '16px';
+        el.style.lineHeight = '16px';
+        el.style.animation = 'fall 3s ease-out ' + Math.floor(Math.random() * 3) + 's infinite';
+        container.appendChild(el);
+    }
 }
-function show(id) {
-    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
+
+function playNo() {
+    if (busy) return;
+    busy = true;
+
+    const b = document.getElementById('btn-no');
+    const vw = document.documentElement.clientWidth;
+    const vh = document.documentElement.clientHeight;
+    const w = b.offsetWidth || 180;
+
+    const x = Math.floor(Math.random() * Math.max(1, vw - w)) + 30;
+    const y = Math.floor(Math.random() * Math.max(1, vh - 180)) + 60;
+
+    b.style.position = 'absolute';
+    b.style.left = x + 'px';
+    b.style.top = y + 'px';
+    b.style.transform = 'translate(-50%, -50%)';
+
+    setTimeout(function() {
+        b.style.position = '';
+        b.style.left = '';
+        b.style.top = '';
+        b.style.transform = '';
+        b.style.display = 'none';
+        document.getElementById('msg').style.display = 'block';
+        busy = false;
+    }, 900);
 }
-</script>
+
+    </script>
 
 </body>
 </html>
